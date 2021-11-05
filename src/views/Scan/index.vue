@@ -9,6 +9,7 @@
 import Uploader from './components/Uploader/index.vue';
 import FileViewer from './components/FileViewer/index.vue';
 import requestAPI from '@/functions/requestAPI';
+import objectToFormData from '@/functions/objectToFormData';
 
 export default {
 	name: 'Scan',
@@ -30,9 +31,11 @@ export default {
 				'POST',
 				'open/uploads/dependencies/files',
 				{
-					repositoryName: 'unknown',
-					commitName: 'unknown',
-					fileData: payload.file,
+					data: objectToFormData({
+						repositoryName: 'unknown',
+						commitName: 'unknown',
+						fileData: payload.file,
+					}),
 				},
 			);
 
