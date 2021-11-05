@@ -15,7 +15,12 @@ module.exports = {
 	rules: {
 		'prettier/prettier': [
 			'error',
-			{ singleQuote: true, useTabs: true, printWidth: 80 },
+			{
+				singleQuote: true,
+				useTabs: true,
+				printWidth: 80,
+				trailingComma: 'all',
+			},
 		],
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
