@@ -18,7 +18,7 @@
 
 <script>
 export default {
-	name: 'Scan',
+	name: 'Uploader',
 	components: {},
 	emits: {
 		onSelect: null,
