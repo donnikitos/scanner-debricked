@@ -20,6 +20,7 @@ module.exports = {
 				useTabs: true,
 				printWidth: 80,
 				trailingComma: 'all',
+				quoteProps: 'consistent',
 			},
 		],
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
