@@ -1,0 +1,64 @@
+.root {
+	display: flex;
+	width: 100%;
+	height: 100%;
+
+	flex-direction: column;
+	flex-wrap: nowrap;
+
+	h1 {
+		padding: var(--padding-page);
+		padding-bottom: 15px;
+
+		font-size: 170%;
+	}
+
+	.scrollContainer {
+		height: 0;
+		flex-grow: 1;
+
+		overflow-y: auto;
+
+		padding: var(--padding-page);
+		padding-top: 15px;
+	}
+
+	.displayContainer {
+		display: table;
+		width: 80%;
+
+		margin: auto;
+		background-color: #d2d2d2;
+
+		border-radius: 4px;
+
+		padding-top: 7.5px;
+		padding-bottom: 7.5px;
+
+		.row {
+			display: table-row;
+
+			&:hover {
+				background-color: #b4d7c6;
+			}
+
+			.lineNumber {
+				text-align: right;
+			}
+
+			.line {
+				white-space: pre-wrap;
+
+				padding-left: 4px;
+
+				border-left: 1px solid #acacac;
+			}
+
+			& > * {
+				display: table-cell;
+
+				padding: 2.5px 10px;
+			}
+		}
+	}
+}
