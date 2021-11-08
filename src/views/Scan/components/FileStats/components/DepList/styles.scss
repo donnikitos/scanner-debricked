@@ -1,0 +1,38 @@
+.root {
+	padding: 5px;
+
+	h4 {
+		font-size: 120%;
+
+		border-bottom: 1px solid #cccccc;
+	}
+
+	.list {
+		max-height: 300px;
+
+		overflow-y: auto;
+
+		padding: 0 10px;
+		padding-top: 5px;
+
+		.item {
+			display: flex;
+
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+
+			.label {
+				flex-grow: 1;
+
+				overflow: hidden;
+			}
+
+			.cve {
+				flex-shrink: 1;
+
+				font-size: 90%;
+			}
+		}
+	}
+}

@@ -1,16 +1,9 @@
 <template>
 	<div :class="$style.root">
-		<h1>Analyzing file</h1>
-		<div :class="$style.scrollContainer">
-			<div :class="$style.displayContainer">
-				<div
-					v-for="(item, index) in lines"
-					:key="index"
-					:class="$style.row"
-				>
-					<div :class="$style.lineNumber">{{ index + 1 }}</div>
-					<pre :class="$style.line">{{ item }}</pre>
-				</div>
+		<div :class="$style.displayContainer">
+			<div v-for="item in lines" :key="item.line" :class="$style.row">
+				<div :class="$style.lineNumber">{{ item.line }}</div>
+				<pre :class="$style.line">{{ item.value }}</pre>
 			</div>
 		</div>
 	</div>
@@ -19,16 +12,32 @@
 <script>
 export default {
 	name: 'FileViewer',
-	components: {},
 	props: {
 		data: {
 			type: String,
 			required: true,
 		},
+		range: {
+			type: Array,
+		},
 	},
 	computed: {
 		lines() {
-			return this.data.split('\n');
+			return this.data.split('\n').reduce((acc, value, index) => {
+				const line = index + 1;
+
+				if (
+					this.range &&
+					((this.range[0] && line < this.range[0]) ||
+						(this.range[1] && line > this.range[1]))
+				) {
+					return acc;
+				}
+
+				acc.push({ line, value });
+
+				return acc;
+			}, []);
 		},
 	},
 };

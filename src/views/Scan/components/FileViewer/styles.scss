@@ -1,27 +1,10 @@
 .root {
-	display: flex;
 	width: 100%;
 	height: 100%;
+	overflow-y: auto;
 
-	flex-direction: column;
-	flex-wrap: nowrap;
-
-	h1 {
-		padding: var(--padding-page);
-		padding-bottom: 15px;
-
-		font-size: 170%;
-	}
-
-	.scrollContainer {
-		height: 0;
-		flex-grow: 1;
-
-		overflow-y: auto;
-
-		padding: var(--padding-page);
-		padding-top: 15px;
-	}
+	padding: var(--padding-page);
+	padding-top: 15px;
 
 	.displayContainer {
 		display: table;
@@ -39,7 +22,7 @@
 			display: table-row;
 
 			&:hover {
-				background-color: #b4d7c6;
+				background-color: #c6d2cc;
 			}
 
 			.lineNumber {
