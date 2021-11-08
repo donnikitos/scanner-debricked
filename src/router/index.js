@@ -5,12 +5,12 @@ import Auth from '../views/Auth/index.vue';
 const routes = [
 	{
 		path: '/',
-		name: 'Authorize',
+		name: 'auth',
 		component: Auth,
 	},
 	{
-		path: '/scanner',
-		name: 'Scanner',
+		path: '/scanner/:id?',
+		name: 'scanner',
 		component: () => import('../views/Scan/index.vue'),
 	},
 ];
