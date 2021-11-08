@@ -6,7 +6,17 @@ import { useToast } from 'vue-toastification';
 
 const toast = useToast();
 
+const active = [];
+
 async function requestAPI(method, url, args, withVersion = true) {
+	const requestId = JSON.stringify({ method, url, args, withVersion });
+
+	if (active.includes(requestId)) {
+		return;
+	} else {
+		active.push(requestId);
+	}
+
 	let result = undefined;
 	const token = store.state.auth.token;
 
@@ -39,6 +49,11 @@ async function requestAPI(method, url, args, withVersion = true) {
 		}
 		// console.log(e);
 	}
+
+	active.splice(
+		active.findIndex((item) => item === requestId),
+		1,
+	);
 
 	return result?.data;
 }
