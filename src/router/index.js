@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store';
 import Auth from '../views/Auth/index.vue';
 
 const routes = [
@@ -17,6 +18,16 @@ const routes = [
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
+});
+
+router.beforeEach((to, _from, next) => {
+	if (to.path !== '/' && !store.state.auth.token) {
+		next({ path: '/' });
+	} else if (to.path === '/' && store.state.auth.token) {
+		next({ path: '/scanner' });
+	} else {
+		next();
+	}
 });
 
 export default router;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL, API_VERSION } from '@/constants/index.js';
 import store from '@/store/index.js';
+import router from '@/router/index.js';
 import { useToast } from 'vue-toastification';
 
 const toast = useToast();
@@ -31,6 +32,11 @@ async function requestAPI(method, url, args, withVersion = true) {
 			e.message;
 
 		toast(message, { type: 'error' });
+
+		if (['Expired JWT Token', 'Invalid JWT Token'].includes(message)) {
+			store.commit('setToken', false);
+			router.push('/');
+		}
 		// console.log(e);
 	}
 

@@ -9,7 +9,14 @@ export default {
 	},
 	mutations: {
 		setToken(state, payload) {
-			state.token = payload || undefined;
+			const token = payload || undefined;
+
+			if (token) {
+				localStorage.setItem('token', token);
+			} else {
+				localStorage.removeItem('token');
+			}
+			state.token = token;
 		},
 	},
 	actions: {
@@ -27,7 +34,6 @@ export default {
 			);
 
 			if (result) {
-				localStorage.setItem('token', result.token);
 				commit('setToken', result.token);
 			}
 
