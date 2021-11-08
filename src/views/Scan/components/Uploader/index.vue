@@ -10,38 +10,99 @@
 				@dragleave="dragOver = false"
 				@drop.prevent="onDrop"
 			>
-				Drop your files here
+				<template v-if="!uploading">
+					<img
+						src="@/assets/icons/file-import-duotone.svg"
+						:class="$style.icon"
+					/>
+					<div :class="$style.text">Drop your package file here</div>
+					<div :class="$style.separator">
+						<div>or</div>
+					</div>
+					<div :class="$style.uploadBtn">
+						<label>
+							Choose file...
+							<input type="file" @change="onFileInput" />
+						</label>
+					</div>
+				</template>
+				<Spinner v-else />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import Spinner from '@/components/Spinner';
+import requestAPI from '@/functions/requestAPI';
+import objectToFormData from '@/functions/objectToFormData';
+
 export default {
 	name: 'Uploader',
-	components: {},
+	components: { Spinner },
 	emits: {
-		onSelect: null,
+		onUploaded: null,
 	},
 	data() {
 		return {
 			dragOver: false,
+			uploading: false,
+			file: undefined,
+			fileContents: undefined,
 		};
 	},
 	methods: {
+		onFileInput(event) {
+			this.onFileRead(event.target.files[0]);
+		},
 		onDrop(event) {
-			const file = event.dataTransfer.files[0];
-
+			this.dragOver = false;
+			this.onFileRead(event.dataTransfer.files[0]);
+		},
+		async onFileRead(file) {
 			if (file) {
-				const reader = new FileReader();
+				this.uploading = true;
+				this.file = file;
 
-				reader.onload = () => {
-					this.$emit('onSelect', {
-						file,
-						data: reader.result,
+				this.fileContents = await new Promise((resolve) => {
+					const reader = new FileReader();
+
+					reader.onload = () => {
+						resolve(reader.result);
+					};
+					reader.readAsText(file);
+				});
+
+				const res = await requestAPI(
+					'POST',
+					'open/uploads/dependencies/files',
+					{
+						data: objectToFormData({
+							repositoryName: 'unknown',
+							commitName: 'unknown',
+							fileData: this.file,
+						}),
+					},
+				);
+
+				if (res) {
+					await requestAPI(
+						'POST',
+						'open/finishes/dependencies/files/uploads',
+						{
+							data: objectToFormData({
+								ciUploadId: res.ciUploadId,
+							}),
+						},
+					);
+
+					this.$emit('onUploaded', {
+						...res,
+						file: this.file,
+						fileContents: this.fileContents,
 					});
-				};
-				reader.readAsText(file);
+				}
+				this.uploading = false;
 			}
 		},
 	},

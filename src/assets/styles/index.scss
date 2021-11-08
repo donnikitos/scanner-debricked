@@ -46,3 +46,13 @@ img {
 
 	overflow: hidden;
 }
+
+a {
+	color: #489970;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+}

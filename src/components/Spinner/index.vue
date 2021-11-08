@@ -1,10 +1,10 @@
 <template>
-	<button :type="type" :class="$style.buttonRoot"><slot></slot></button>
+	<div :class="$style.root">Loading...</div>
 </template>
 
 <script>
 export default {
-	name: 'Input',
+	name: 'Spinner',
 	props: {
 		type: {
 			type: String,
